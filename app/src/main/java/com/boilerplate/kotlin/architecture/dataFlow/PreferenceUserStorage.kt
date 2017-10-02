@@ -1,4 +1,4 @@
-package com.boilerplate.kotlin.architecture.data_flow
+package com.boilerplate.kotlin.architecture.dataFlow
 
 import android.content.Context
 import android.content.SharedPreferences

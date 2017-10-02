@@ -1,4 +1,4 @@
-package com.boilerplate.kotlin.architecture.data_flow.database
+package com.boilerplate.kotlin.architecture.dataFlow.database
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity

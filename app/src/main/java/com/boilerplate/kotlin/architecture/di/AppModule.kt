@@ -2,10 +2,11 @@ package com.boilerplate.kotlin.architecture.di
 
 import android.app.Application
 import android.content.Context
-import com.boilerplate.kotlin.architecture.data_flow.IDataManager
-import com.boilerplate.kotlin.architecture.data_flow.DataManger
-import com.boilerplate.kotlin.architecture.data_flow.IUserStorage
-import com.boilerplate.kotlin.architecture.data_flow.PreferenceUserStorage
+import com.boilerplate.kotlin.architecture.dataFlow.IDataManager
+import com.boilerplate.kotlin.architecture.dataFlow.DataManger
+import com.boilerplate.kotlin.architecture.dataFlow.IUserStorage
+import com.boilerplate.kotlin.architecture.dataFlow.PreferenceUserStorage
+import com.boilerplate.kotlin.architecture.dataFlow.network.Api
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -24,7 +25,9 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideDataManager(): IDataManager = DataManger()
+    fun provideDataManager(api : Api): IDataManager{
+        return DataManger(api)
+    }
 
     @Provides
     @Singleton
@@ -34,5 +37,4 @@ class AppModule(private val application: Application) {
     @Singleton
     @Named("something")
     fun provideSomething(): String = "something"
-
 }

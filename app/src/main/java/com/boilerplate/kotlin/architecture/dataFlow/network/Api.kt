@@ -1,5 +1,6 @@
-package com.boilerplate.kotlin.architecture.data_flow.network
+package com.boilerplate.kotlin.architecture.dataFlow.network
 
+import com.boilerplate.kotlin.architecture.models.ServerAnsver
 import io.reactivex.Flowable
 import retrofit2.http.GET
 
@@ -9,5 +10,5 @@ import retrofit2.http.GET
  */
 interface Api {
     @GET("get")
-    fun check(): Flowable<String>
+    fun check(): Flowable<ServerAnsver>
 }

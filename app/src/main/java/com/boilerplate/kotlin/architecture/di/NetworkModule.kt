@@ -1,8 +1,9 @@
 package com.boilerplate.kotlin.architecture.di
 
 import com.boilerplate.kotlin.architecture.BuildConfig
-import com.boilerplate.kotlin.architecture.data_flow.network.Api
+import com.boilerplate.kotlin.architecture.dataFlow.network.Api
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.HttpUrl
@@ -73,6 +74,12 @@ class NetworkModule {
 
         return logger
     }
+
+    @Singleton
+    @Provides
+    fun provideGson(): Gson = GsonBuilder()
+            .serializeNulls()
+            .create()
 
     companion object {
         private const val NETWORK_TAG = "Network"

@@ -7,7 +7,8 @@ import io.reactivex.disposables.CompositeDisposable
  * Created by a.belichenko@gmail.com on 27.09.17.
  */
 abstract class BaseViewModel : ViewModel() {
-    val disposal : CompositeDisposable = CompositeDisposable()
+
+    private val disposal : CompositeDisposable = CompositeDisposable()
 
     override fun onCleared() {
         super.onCleared()

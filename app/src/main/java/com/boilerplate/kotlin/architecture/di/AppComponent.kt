@@ -2,6 +2,7 @@ package com.boilerplate.kotlin.architecture.di
 
 import com.boilerplate.kotlin.architecture.AppApplication
 import com.boilerplate.kotlin.architecture.ui.MainActivity
+import com.boilerplate.kotlin.architecture.ui.viewModels.MainActivityVM
 import dagger.Component
 import javax.inject.Singleton
 
@@ -16,4 +17,5 @@ interface AppComponent {
 
     fun inject(mainActivity: MainActivity)
 
+    fun inject(mainActivityVM: MainActivityVM)
 }
