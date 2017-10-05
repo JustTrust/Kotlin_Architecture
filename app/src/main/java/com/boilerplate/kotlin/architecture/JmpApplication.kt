@@ -4,13 +4,14 @@ import android.app.Application
 import com.boilerplate.kotlin.architecture.di.AppComponent
 import com.boilerplate.kotlin.architecture.di.AppModule
 import com.boilerplate.kotlin.architecture.di.DaggerAppComponent
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.stetho.Stetho
 import timber.log.Timber
 
 /**
  * Created by a.belichenko@gmail.com on 27.09.17.
  */
-class AppApplication : Application() {
+class JmpApplication : Application() {
 
     companion object {
         //platformStatic allow access it from java code
@@ -31,5 +32,6 @@ class AppApplication : Application() {
                 }
             })
         }
+        Fresco.initialize(this);
     }
 }

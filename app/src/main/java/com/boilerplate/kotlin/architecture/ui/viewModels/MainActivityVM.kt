@@ -1,7 +1,7 @@
 package com.boilerplate.kotlin.architecture.ui.viewModels
 
 import android.arch.lifecycle.LiveData
-import com.boilerplate.kotlin.architecture.AppApplication
+import com.boilerplate.kotlin.architecture.JmpApplication
 import com.boilerplate.kotlin.architecture.dataFlow.IDataManager
 import com.boilerplate.kotlin.architecture.models.ServerAnsver
 import com.boilerplate.kotlin.architecture.ui.base.BaseViewModel
@@ -16,7 +16,7 @@ class MainActivityVM : BaseViewModel() {
     private lateinit var answer: LiveData<ServerAnsver>
 
     init {
-        AppApplication.component.inject(this)
+        JmpApplication.component.inject(this)
     }
 
     fun getServerAnswer() : LiveData<ServerAnsver> {
