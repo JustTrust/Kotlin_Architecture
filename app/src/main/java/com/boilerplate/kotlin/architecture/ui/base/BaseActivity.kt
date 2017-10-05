@@ -1,4 +1,4 @@
-package com.boilerplate.kotlin.architecture.ui.Base
+package com.boilerplate.kotlin.architecture.ui.base
 
 import android.support.v7.app.AppCompatActivity
 

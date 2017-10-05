@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import com.boilerplate.kotlin.architecture.AppApplication
 import com.boilerplate.kotlin.architecture.dataFlow.IDataManager
 import com.boilerplate.kotlin.architecture.models.ServerAnsver
-import com.boilerplate.kotlin.architecture.ui.Base.BaseViewModel
+import com.boilerplate.kotlin.architecture.ui.base.BaseViewModel
 import javax.inject.Inject
 
 /**

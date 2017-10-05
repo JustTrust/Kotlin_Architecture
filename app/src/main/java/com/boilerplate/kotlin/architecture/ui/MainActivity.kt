@@ -4,7 +4,7 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import com.boilerplate.kotlin.architecture.AppApplication
 import com.boilerplate.kotlin.architecture.R
-import com.boilerplate.kotlin.architecture.ui.Base.BaseActivity
+import com.boilerplate.kotlin.architecture.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 import javax.inject.Inject
