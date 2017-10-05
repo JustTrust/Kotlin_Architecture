@@ -12,6 +12,7 @@ import javax.inject.Named
 import android.arch.lifecycle.ViewModelProviders
 import com.boilerplate.kotlin.architecture.models.ServerAnsver
 import com.boilerplate.kotlin.architecture.ui.viewModels.MainActivityVM
+import com.boilerplate.kotlin.architecture.utils.onClick
 
 
 class MainActivity : BaseActivity() {
@@ -25,6 +26,12 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         AppApplication.component.inject(this)
         viewModel = ViewModelProviders.of(this).get(MainActivityVM::class.java)
+
+        mainText.onClick { onClickLog() }
+    }
+
+    private fun onClickLog() {
+        Timber.d("On click was fired ")
     }
 
     override fun onResume() {
