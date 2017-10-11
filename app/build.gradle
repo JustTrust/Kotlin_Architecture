@@ -11,7 +11,7 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.boilerplate.kotlin.architecture"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1000
         versionName "1.0"
@@ -53,13 +53,18 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+
+    def support_version = '26.1.0'
+    implementation "com.android.support:appcompat-v7:${support_version}"
+    implementation "com.android.support:recyclerview-v7:${support_version}"
+
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.fresco:fresco:1.5.0'
     implementation 'com.jakewharton.timber:timber:4.5.1'
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'io.reactivex:rxkotlin:0.60.0'
+    implementation 'com.azoft.carousellayoutmanager:carousel:1.2.1'
 
     def retrofit_version = '2.2.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -73,7 +78,7 @@ dependencies {
     def ok_http_version = '3.8.1'
     implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
 
-    def arch_version = '1.0.0-alpha9-1'
+    def arch_version = '1.0.0-beta2'
     implementation "android.arch.lifecycle:runtime:$arch_version"
     implementation "android.arch.lifecycle:extensions:$arch_version"
     implementation "android.arch.lifecycle:reactivestreams:$arch_version"

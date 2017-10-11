@@ -5,6 +5,7 @@
     <!--Permissions-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!--Application-->
     <application
@@ -17,13 +18,15 @@
         android:theme="@style/AppTheme">
 
         <!--Activities-->
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.CameraActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.MainActivity" />
     </application>
 
 </manifest>
