@@ -1,9 +1,8 @@
 package com.boilerplate.kotlin.architecture.dataFlow
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.LiveDataReactiveStreams
 import com.boilerplate.kotlin.architecture.dataFlow.network.Api
 import com.boilerplate.kotlin.architecture.models.ServerAnsver
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 /**
@@ -12,7 +11,7 @@ import javax.inject.Inject
  */
 class DataManger @Inject constructor(private val api: Api): IDataManager {
 
-    override fun getServerResponse(): LiveData<ServerAnsver> {
-        return LiveDataReactiveStreams.fromPublisher(api.check())
+    override fun getServerResponse(): Flowable<ServerAnsver> {
+        return api.check()
     }
 }

@@ -1,6 +1,7 @@
 package com.boilerplate.kotlin.architecture.ui.viewModels
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import com.boilerplate.kotlin.architecture.JmpApplication
 import com.boilerplate.kotlin.architecture.dataFlow.IDataManager
 import com.boilerplate.kotlin.architecture.models.ServerAnsver
@@ -13,14 +14,17 @@ import javax.inject.Inject
 class MainActivityVM : BaseViewModel() {
 
     @Inject lateinit var dataManger: IDataManager
-    private lateinit var answer: LiveData<ServerAnsver>
+    private var answer: MutableLiveData<ServerAnsver>? = null
 
     init {
         JmpApplication.component.inject(this)
     }
 
-    fun getServerAnswer() : LiveData<ServerAnsver> {
-        answer = dataManger.getServerResponse()
+    fun getServerAnswer() : LiveData<ServerAnsver>? {
+        if (answer == null){
+            answer = MutableLiveData()
+            disposal.add(dataManger.getServerResponse().subscribe({ it: ServerAnsver ->  answer?.postValue(it)}))
+        }
         return answer
     }
 }

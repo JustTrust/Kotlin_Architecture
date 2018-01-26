@@ -19,7 +19,6 @@ import java.util.ArrayList
 import com.boilerplate.kotlin.architecture.utils.SpeedyLinearLayoutManager
 
 
-
 class MainActivity : BaseActivity() {
 
     @field:[Inject Named("something")]
@@ -32,7 +31,8 @@ class MainActivity : BaseActivity() {
         JmpApplication.component.inject(this)
 
         viewModel = ViewModelProviders.of(this).get(MainActivityVM::class.java)
-
+        viewModel.getServerAnswer()?.observe(this, Observer<ServerAnsver> { mainText.text = it.toString()})
+        Timber.d(somethingElse)
         initList()
         mainText.onClick { onClickLog() }
     }
@@ -48,17 +48,10 @@ class MainActivity : BaseActivity() {
         gallery.adapter = GalleryAdapter(items) {
             Timber.d("$it was Clicked")
         }
-
     }
 
     private fun onClickLog() {
         Timber.d("On click was fired ")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getServerAnswer().observe(this, Observer<ServerAnsver> { mainText.text = it.toString() })
-        Timber.d(somethingElse)
     }
 
 }

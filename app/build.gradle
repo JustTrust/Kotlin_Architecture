@@ -57,9 +57,12 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${support_version}"
     implementation "com.android.support:recyclerview-v7:${support_version}"
 
+    def stetho_version = '1.5.0'
+    implementation "com.facebook.stetho:stetho:${stetho_version}"
+    implementation "com.facebook.fresco:fresco:${stetho_version}"
+    implementation "com.facebook.stetho:stetho-okhttp3:${stetho_version}"
+
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.facebook.fresco:fresco:1.5.0'
     implementation 'com.jakewharton.timber:timber:4.5.1'
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'io.reactivex:rxkotlin:0.60.0'
@@ -86,6 +89,5 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$room_version"
     implementation "android.arch.persistence.room:rxjava2:$room_version"
     kapt "android.arch.persistence.room:compiler:$room_version"
-
 }
 

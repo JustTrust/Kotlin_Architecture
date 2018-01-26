@@ -2,6 +2,7 @@ package com.boilerplate.kotlin.architecture.di
 
 import com.boilerplate.kotlin.architecture.BuildConfig
 import com.boilerplate.kotlin.architecture.dataFlow.network.Api
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -16,6 +17,7 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+
 /**
  * Created by a.belichenko on 27.09.2017.
  * mail: a.belichenko@gmail.com
@@ -26,8 +28,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideApiInterface(retrofit: Retrofit): Api
-            = retrofit.create(Api::class.java)
+    fun provideApiInterface(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
 
     @Singleton
     @Provides
@@ -49,7 +50,7 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(loggerInterceptor: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor {
+            .addInterceptor { it ->
                 val original = it.request()
                 val request = original.newBuilder()
                         .header("Authorization", "73dd89f934c0ca99d66b2ddd")
@@ -59,6 +60,7 @@ class NetworkModule {
                 it.proceed(request)
             }
             .addNetworkInterceptor(loggerInterceptor)
+            .addNetworkInterceptor(StethoInterceptor())
             .connectTimeout(40, TimeUnit.SECONDS)
             .readTimeout(40, TimeUnit.SECONDS)
             .writeTimeout(40, TimeUnit.SECONDS)

@@ -32,6 +32,6 @@ class JmpApplication : Application() {
                 }
             })
         }
-        Fresco.initialize(this);
+        Fresco.initialize(this)
     }
 }
