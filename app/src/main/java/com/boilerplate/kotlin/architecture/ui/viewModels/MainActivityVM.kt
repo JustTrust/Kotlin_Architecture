@@ -2,7 +2,7 @@ package com.boilerplate.kotlin.architecture.ui.viewModels
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.boilerplate.kotlin.architecture.JmpApplication
+import com.boilerplate.kotlin.architecture.AndroidApplication
 import com.boilerplate.kotlin.architecture.dataFlow.IDataManager
 import com.boilerplate.kotlin.architecture.models.ServerAnsver
 import com.boilerplate.kotlin.architecture.ui.base.BaseViewModel
@@ -17,7 +17,7 @@ class MainActivityVM : BaseViewModel() {
     private var answer: MutableLiveData<ServerAnsver>? = null
 
     init {
-        JmpApplication.component.inject(this)
+        AndroidApplication.component.inject(this)
     }
 
     fun getServerAnswer() : LiveData<ServerAnsver>? {

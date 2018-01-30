@@ -2,7 +2,7 @@ package com.boilerplate.kotlin.architecture.ui
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import com.boilerplate.kotlin.architecture.JmpApplication
+import com.boilerplate.kotlin.architecture.AndroidApplication
 import com.boilerplate.kotlin.architecture.R
 import com.boilerplate.kotlin.architecture.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,7 +16,6 @@ import com.boilerplate.kotlin.architecture.ui.adapters.GalleryAdapter
 import com.boilerplate.kotlin.architecture.ui.viewModels.MainActivityVM
 import com.boilerplate.kotlin.architecture.utils.onClick
 import java.util.ArrayList
-import com.boilerplate.kotlin.architecture.utils.SpeedyLinearLayoutManager
 
 
 class MainActivity : BaseActivity() {
@@ -28,7 +27,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        JmpApplication.component.inject(this)
+        AndroidApplication.component.inject(this)
 
         viewModel = ViewModelProviders.of(this).get(MainActivityVM::class.java)
         viewModel.getServerAnswer()?.observe(this, Observer<ServerAnsver> { mainText.text = it.toString()})
@@ -39,9 +38,7 @@ class MainActivity : BaseActivity() {
 
     private fun initList(){
 
-        val speedyLayoutManager = SpeedyLinearLayoutManager(this)
-        speedyLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        gallery.layoutManager = speedyLayoutManager
+        gallery.layoutManager = LinearLayoutManager(this)
 
         val items : ArrayList<String> = ArrayList()
         for (index in 1..10) items += (getString(R.string.item_header)+index)

@@ -11,7 +11,7 @@ import timber.log.Timber
 /**
  * Created by a.belichenko@gmail.com on 27.09.17.
  */
-class JmpApplication : Application() {
+class AndroidApplication : Application() {
 
     companion object {
         //platformStatic allow access it from java code
