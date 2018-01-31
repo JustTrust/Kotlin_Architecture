@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.boilerplate.kotlin.architecture.R
+import com.boilerplate.kotlin.architecture.models.BlueDevice
 import kotlinx.android.synthetic.main.gallery_item.view.*
 
 /**
  * Created by a.belichenko@gmail.com on 10.10.17.
  */
-class GalleryAdapter(val items: List<String>, val listener: (String) -> Unit) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
+class GalleryAdapter(val items: List<BlueDevice>, val listener: (BlueDevice) -> Unit) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
@@ -23,9 +24,9 @@ class GalleryAdapter(val items: List<String>, val listener: (String) -> Unit) : 
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: String, listener: (String) -> Unit) = with(itemView) {
-            itemHeader.text = item
-            itemPic.setActualImageResource(R.drawable.item_pic)
+        fun bind(item: BlueDevice, listener: (BlueDevice) -> Unit) = with(itemView) {
+            itemHeader.text = item.name
+            itemMac.text = item.mac
             setOnClickListener { listener(item) }
         }
     }

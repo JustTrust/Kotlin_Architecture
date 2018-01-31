@@ -7,6 +7,7 @@ import com.boilerplate.kotlin.architecture.dataFlow.DataManger
 import com.boilerplate.kotlin.architecture.dataFlow.IUserStorage
 import com.boilerplate.kotlin.architecture.dataFlow.PreferenceUserStorage
 import com.boilerplate.kotlin.architecture.dataFlow.network.Api
+import com.boilerplate.kotlin.architecture.utils.BlueManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -31,7 +32,11 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideUserStorage(): IUserStorage = PreferenceUserStorage(context = provideApplicationContext())
+    fun provideUserStorage(): IUserStorage = PreferenceUserStorage(provideApplicationContext())
+
+    @Provides
+    @Singleton
+    fun provideBlueManager(): BlueManager = BlueManager(provideApplicationContext())
 
     @Provides
     @Singleton
