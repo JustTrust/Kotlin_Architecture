@@ -15,6 +15,8 @@ import com.boilerplate.kotlin.architecture.ui.viewModels.MainActivityVM
 import com.boilerplate.kotlin.architecture.utils.BlueManager
 import com.boilerplate.kotlin.architecture.utils.onClick
 import kotlinx.android.synthetic.main.activity_main.*
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
@@ -42,7 +44,10 @@ class MainActivity : BaseActivity() {
 
         gallery.layoutManager = LinearLayoutManager(this)
 
-        BlueManager(this).getDeviceList().subscribe({ list -> gallery.adapter = GalleryAdapter(list, { device -> showToast(device) }) },
+        BlueManager(this).getDeviceList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ list -> gallery.adapter = GalleryAdapter(list, { device -> showToast(device) }) },
                 { t -> Timber.e(t) })
     }
 

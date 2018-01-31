@@ -26,6 +26,7 @@ class BlueManager(private val context: Context) {
             val action = intent.action
             if (BluetoothDevice.ACTION_FOUND == action) {
                 val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                Timber.d("New blue device")
                 deviceList.add(BlueDevice(device.name, device.address))
             }
         }
@@ -43,7 +44,7 @@ class BlueManager(private val context: Context) {
                     .doOnSubscribe({
                         Timber.d("Start blue receiver")
                         context.registerReceiver(receiver, filter) })
-                    .debounce(10, TimeUnit.SECONDS)
+                    .zipWith(Observable.interval(10, TimeUnit.SECONDS), { t1, _ -> t1 })
                     .doOnNext({
                         Timber.d("Stop blue receiver")
                         context.unregisterReceiver(receiver) })
