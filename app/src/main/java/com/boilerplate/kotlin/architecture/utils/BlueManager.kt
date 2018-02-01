@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
  */
 class BlueManager(private val context: Context) {
 
-    private val deviceList : MutableCollection<BlueDevice> = ArrayList()
+    private val deviceList : ArrayList<BlueDevice> = ArrayList()
     private val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
 
     private val receiver = object : BroadcastReceiver() {
@@ -32,7 +32,7 @@ class BlueManager(private val context: Context) {
         }
     }
 
-    var bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+    private val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
     fun getDeviceList() : Observable<List<BlueDevice>>{
         return if (bluetoothAdapter == null){
@@ -43,10 +43,12 @@ class BlueManager(private val context: Context) {
             Observable.just(deviceList.toList())
                     .doOnSubscribe({
                         Timber.d("Start blue receiver")
+                        bluetoothAdapter.startDiscovery()
                         context.registerReceiver(receiver, filter) })
-                    .zipWith(Observable.interval(10, TimeUnit.SECONDS), { t1, _ -> t1 })
+                    .zipWith(Observable.interval(19, TimeUnit.SECONDS), { t1, _ -> t1 })
                     .doOnNext({
                         Timber.d("Stop blue receiver")
+                        bluetoothAdapter.cancelDiscovery()
                         context.unregisterReceiver(receiver) })
         }
     }

@@ -47,7 +47,8 @@ class MainActivity : BaseActivity() {
         BlueManager(this).getDeviceList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ list -> gallery.adapter = GalleryAdapter(list, { device -> showToast(device) }) },
+                .subscribe({ list -> gallery.adapter = GalleryAdapter(list, { device -> showToast(device) })
+                gallery.adapter.notifyDataSetChanged()},
                 { t -> Timber.e(t) })
     }
 
