@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import com.boilerplate.kotlin.architecture.models.BlueDevice
 import rx.Observable
-import rx.Subscriber
 import rx.subscriptions.Subscriptions
 import timber.log.Timber
 import java.lang.IllegalStateException
@@ -30,31 +29,38 @@ class BlueManager(private val context: Context) {
         } else if (!bluetoothAdapter.isEnabled) {
             Observable.error(IllegalAccessException())
         } else {
-            Observable.create(object : Observable.OnSubscribe<BlueDevice> {
-                override fun call(subscriber: Subscriber<in BlueDevice>) {
-                    val receiver = object : BroadcastReceiver() {
-                        override fun onReceive(context: Context, intent: Intent) {
+            Observable.create { subscriber ->
+                val receiver = object : BroadcastReceiver() {
+                    override fun onReceive(context: Context, intent: Intent) {
+                        try {
                             val action = intent.action
                             if (BluetoothDevice.ACTION_FOUND == action) {
                                 val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                                 Timber.d("New blue device")
-                                subscriber.onNext(BlueDevice(device.name?: "", device.address))
+                                subscriber.onNext(BlueDevice(device.name ?: "", device.address))
                             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED == action) {
+                                Timber.d("Finish discovery blue receiver")
                                 subscriber.onCompleted()
                             }
+                        }catch (t : Throwable){
+                            subscriber.onError(t)
                         }
                     }
-                    Timber.d("Start blue receiver")
-                    bluetoothAdapter.startDiscovery()
-                    context.registerReceiver(receiver, filter)
-
-                    subscriber.add(Subscriptions.create {
-                        Timber.d("Stop blue receiver")
-                        bluetoothAdapter.cancelDiscovery()
-                        context.unregisterReceiver(receiver)
-                    })
                 }
-            })
+                Timber.d("Start blue receiver")
+                bluetoothAdapter.startDiscovery()
+                context.registerReceiver(receiver, filter)
+
+                subscriber.add(Subscriptions.create {
+                    Timber.d("Stop blue receiver")
+                    bluetoothAdapter.cancelDiscovery()
+                    context.unregisterReceiver(receiver)
+                })
+            }
         }
+    }
+
+    fun getBlueProperties(): Observable<String>{
+        return Observable.just("Device name ${bluetoothAdapter.name} , address ${bluetoothAdapter.address}")
     }
 }
