@@ -36,10 +36,6 @@ class AppModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideBlueManager(): BlueManager = BlueManager(provideApplicationContext())
-
-    @Provides
-    @Singleton
     @Named("something")
     fun provideSomething(): String = "something"
 }

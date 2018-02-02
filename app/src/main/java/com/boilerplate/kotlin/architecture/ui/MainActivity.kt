@@ -13,20 +13,18 @@ import com.boilerplate.kotlin.architecture.ui.adapters.GalleryAdapter
 import com.boilerplate.kotlin.architecture.ui.base.BaseActivity
 import com.boilerplate.kotlin.architecture.ui.viewModels.MainActivityVM
 import com.boilerplate.kotlin.architecture.utils.BlueManager
+import com.boilerplate.kotlin.architecture.utils.LocationPermissionHelper
 import com.boilerplate.kotlin.architecture.utils.onClick
 import kotlinx.android.synthetic.main.activity_main.*
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import rx.functions.Action1
 import timber.log.Timber
-import javax.inject.Inject
-import javax.inject.Named
 
 
 class MainActivity : BaseActivity() {
 
-    @field:[Inject Named("something")]
-    lateinit var somethingElse: String
     private lateinit var viewModel: MainActivityVM
+    private val list: ArrayList<BlueDevice> = ArrayList()
+    private lateinit var blueManager: BlueManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +33,11 @@ class MainActivity : BaseActivity() {
 
         viewModel = ViewModelProviders.of(this).get(MainActivityVM::class.java)
         viewModel.getServerAnswer()?.observe(this, Observer<ServerAnsver> { mainText.text = it.toString() })
-        Timber.d(somethingElse)
+        blueManager = BlueManager(this, Action1 { blueDevice ->
+            list.add(blueDevice)
+            gallery.adapter.notifyItemInserted(list.size - 1)
+        })
+
         initList()
         mainText.onClick { onClickLog() }
     }
@@ -43,12 +45,32 @@ class MainActivity : BaseActivity() {
     private fun initList() {
 
         gallery.layoutManager = LinearLayoutManager(this)
+        gallery.adapter = GalleryAdapter(list, { device -> connectToDevice(device) })
+        if (LocationPermissionHelper.hasLocationPermission(this)) {
+            blueManager.startBlueSearch()
+        } else {
+            LocationPermissionHelper.requestLocationPermission(this)
+        }
+    }
 
-        BlueManager(this).getDeviceList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ list -> gallery.adapter = GalleryAdapter(list, { device -> showToast(device) }) },
-                { t -> Timber.e(t) })
+    private fun connectToDevice(device: BlueDevice) {
+        showToast(device)
+        blueManager.stopBlueSearch()
+        blueManager.connectToDevice(device)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        blueManager.stopBlueSearch()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, results: IntArray) {
+        if (!LocationPermissionHelper.hasLocationPermission(this)) {
+            Toast.makeText(this, "Location permission is needed to find bluetooth devices", Toast.LENGTH_LONG).show()
+            if (!LocationPermissionHelper.shouldShowRequestPermissionRationale(this)) {
+                LocationPermissionHelper.launchPermissionSettings(this)
+            }
+        }
     }
 
     private fun showToast(device: BlueDevice) {
